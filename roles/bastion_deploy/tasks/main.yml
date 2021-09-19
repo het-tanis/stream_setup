@@ -81,6 +81,7 @@
     mode: 0770
     owner: streamer1
     group: streamer1
+    remote_src: yes
   when: action == "present"
 
 - name: Find a list of libraries for /bin/sh
