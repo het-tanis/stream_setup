@@ -126,20 +126,14 @@
     template:
       src: files/present.j2
       dest: "/tmp/present.{{ansible_date_time.date}}.txt"
-    delegate_to: localhost
-    run_once: true
 
   - name: Patch Report output capture
     shell: "cat /tmp/present.{{ansible_date_time.date}}.txt"
     register: present_report
-    delegate_to: localhost
-    run_once: true
 
   - name: show me the patch report
     debug:
       var: present_report.stdout
-    delegate_to: localhost
-    run_once: true
 
   # Send the output to discord when we're ready
 
@@ -148,8 +142,6 @@
       webhook_url: "{{discord_webhook_url}}"
       content: "{{present_report.stdout}}"
     when: discord_webhook_url is defined
-  delegate_to: localhost
-    run_once: true
 
   when: (report == "yes") and (state == "present")
 
@@ -161,20 +153,17 @@
     template:
       src: files/absent.j2
       dest: "/tmp/absent.{{ansible_date_time.date}}.txt"
-    delegate_to: localhost
-    run_once: true
+
 
   - name: Absent Report output capture
     shell: "cat /tmp/absent.{{ansible_date_time.date}}.txt"
     register: absent_report
-    delegate_to: localhost
-    run_once: true
+
 
   - name: show me the absent report
     debug:
       var: absent_report.stdout
-    delegate_to: localhost
-    run_once: true
+
 
   # Send the output to discord when we're ready
 
@@ -183,7 +172,5 @@
       webhook_url: "{{discord_webhook_url}}"
       content: "{{absent_report.stdout}}"
     when: discord_webhook_url is defined
-  delegate_to: localhost
-    run_once: true
 
   when: (report == 'yes') and (state == "absent")
