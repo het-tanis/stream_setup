@@ -1,0 +1,17 @@
+---
+
+###############################################################################
+#Author: Het-Tanis
+#Description: This is going to set up a bastion on a system to jump through
+#To just one other system
+#Date: 19 Sep 2021
+###############################################################################
+
+- name: Bastion Deploy
+  hosts: all
+  vars:
+  gather_facts: True
+  become: True
+
+  roles:
+    - bastion_deploy

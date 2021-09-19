@@ -1,0 +1,126 @@
+---
+
+- name: Enable/Disable Users for Stream Lab
+  user:
+    name: streamer1
+    uid: 15000
+    password: "{{ password | password_hash('sha512') }}"
+    state: "{{ action }}"
+
+- name: Add the lines for chroot in /etc/ssh/sshd_config
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    state: "{{ action }}"
+    line: "{{ item }}"
+  notify:
+  - Restart sshd
+  loop:
+    - "Match User streamer1"
+    - "ChrootDirectory /var/chroot"
+
+- name: Lock the user into a bastion script from /bin/bash
+  lineinfile:
+    path: /etc/passwd
+    regexp: '^streamer1'
+    line: 'streamer1:x:15000:15000::/home/streamer1:/bin/bastion.sh'
+  when: action == "present"
+
+- name: Make the /var/chroot jail for users
+  file:
+    path: "{{ item }}"
+    state: "{{ (action == 'present') | ternary('directory', 'absent') }}"
+    mode: '0755'
+  loop:
+    - /var/chroot
+    - /var/chroot/bin
+    - /var/chroot/lib64
+    - /var/chroot/dev
+    - /var/chroot/etc
+    - /var/chroot/home
+
+- name: Copy over bin files
+  copy:
+    src: "/bin/{{item}}"
+    dest: "/var/chroot/bin/{{item}}"
+    mode: 0755
+    remote_src: yes
+  loop:
+    - bash
+    - ssh
+    - curl
+  when: action == "present"
+
+- name: Copy over bastion.sh
+  copy:
+    src: bastion.sh
+    dest: /var/chroot/bin/bastion.sh
+    mode: 0755
+  when: action == "present"
+
+- name: Copy over the etc files
+  copy:
+    src: "/etc/{{item}}"
+    dest: "/var/chroot/etc/{{item}}"
+    mode: 0755
+    remote_src: yes
+  loop:
+    - passwd
+    - group
+    - nsswitch.conf
+    - hosts
+  when: action == "present"
+
+- name: Copy over all libnss* files from /lib64
+  shell: 'cp /lib64/libnss* /var/chroot/lib64/'
+  when: action == "present"
+
+- name: Copy over the home for streamer1
+  copy:
+    src: /home/streamer1
+    dest: /var/chroot/home/streamer1
+    mode: 0770
+    owner: streamer1
+    group: streamer1
+  when: action == "present"
+
+- name: Find a list of libraries for /bin/sh
+  shell: "ldd /bin/ssh | awk '{print $(NF-1)}'"
+  register: sshlibraries
+  when: action == "present"
+
+- name: Find a list of libraries for /bin/bash
+  shell: "ldd /bin/bash | awk '{print $(NF-1)}'"
+  register: bashlibraries
+  when: action == "present"
+
+- name: Find a list of libraries for /bin/curl
+  shell: "ldd /bin/curl | awk '{print $(NF-1)}'"
+  register: curllibraries
+  when: action == "present"
+
+- name: Copy in link libraries for jail
+  copy:
+    src: "{{ item }}"
+    dest: /var/chroot/lib64/
+    mode: 0755
+    remote_src: yes
+  loop: "{{ sshlibraries.stdout_lines + bashlibraries.stdout_lines + curllibraries.stdout_lines }}"
+  when: action == "present"
+  failed_when: false
+
+- name: Create the dev directories
+  shell: "{{ item }}"
+  loop:
+    - 'mknod -m 666 /var/chroot/dev/null c 1 3'
+    - 'mknod -m 666 /var/chroot/dev/tty c 5 0'
+    - 'mknod -m 666 /var/chroot/dev/zero c 1 5'
+    - 'mknod -m 666 /var/chroot/dev/random c 1 8'
+  failed_when: false
+  when: action == "present"
+
+handlers:
+
+- name: Restart sshd
+  service:
+    name: sshd
+    state: restarted
