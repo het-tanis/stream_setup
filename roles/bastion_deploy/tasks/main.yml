@@ -78,9 +78,9 @@
   copy:
     src: /home/streamer1
     dest: /var/chroot/home/streamer1
-    mode: 0770
-    owner: streamer1
-    group: streamer1
+    mode: 0755
+    owner: root
+    group: root
     remote_src: yes
   when: action == "present"
 
