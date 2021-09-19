@@ -52,7 +52,7 @@
 
 - name: Copy over bastion.sh
   copy:
-    src: bastion.sh
+    src: files/bastion.sh
     dest: /var/chroot/bin/bastion.sh
     mode: 0755
   when: action == "present"
@@ -118,9 +118,4 @@
   failed_when: false
   when: action == "present"
 
-handlers:
 
-- name: Restart sshd
-  service:
-    name: sshd
-    state: restarted
