@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2022-07-05T19:20:41.904Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36" etag="0rfOqg2mBZOxr4JBb96C" version="19.0.0" type="github">
+<mxfile host="app.diagrams.net" modified="2022-07-06T04:16:45.115Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36" etag="NiP4NyEDz7kzbYFnTqYA" version="19.0.0" type="github">
   <diagram id="uApNPZk9d4M74e-09ncH" name="Page-1">
-    <mxGraphModel dx="1056" dy="511" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="912" dy="511" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -15,7 +15,7 @@
         <mxCell id="01yzEppID_w8SQghJ8uJ-2" value="1. External User&lt;br&gt;!Discord Sandbox&lt;br&gt;for User/Pass" style="aspect=fixed;perimeter=ellipsePerimeter;html=1;align=center;shadow=0;dashed=0;spacingTop=3;image;image=img/lib/active_directory/internet_cloud.svg;" vertex="1" parent="1">
           <mxGeometry x="30" y="70.5" width="50" height="31.5" as="geometry" />
         </mxCell>
-        <mxCell id="01yzEppID_w8SQghJ8uJ-3" value="P01Jump01" style="sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#005F4B;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;shape=mxgraph.veeam2.linux_server;" vertex="1" parent="1">
+        <mxCell id="01yzEppID_w8SQghJ8uJ-3" value="ressystem.asuscomm.com" style="sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#005F4B;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;shape=mxgraph.veeam2.linux_server;" vertex="1" parent="1">
           <mxGeometry x="200" y="50" width="40" height="52" as="geometry" />
         </mxCell>
         <mxCell id="01yzEppID_w8SQghJ8uJ-12" value="4. User is only allowed to&amp;nbsp;&lt;br&gt;connect to streamers&lt;br&gt;Server. Any other action&amp;nbsp;&lt;br&gt;results in closing of shell&lt;br&gt;10 second timeout to&amp;nbsp;&lt;br&gt;close out shell." style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;opacity=50;" edge="1" parent="1" source="01yzEppID_w8SQghJ8uJ-10">
