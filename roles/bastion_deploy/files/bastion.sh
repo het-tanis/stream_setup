@@ -5,7 +5,7 @@ read -n 1 -t 10 -p "Make your selection from the items below
 You have 10 seconds
 
 1. Tell me a joke and exit
-2. Go to streamers system
+2. Go to the dungeons
 3. Exit
 " input
 
@@ -18,8 +18,8 @@ case $input in
   sleep 5
   ;;
 2 )
-  echo "You are being sent to the streamers server"
-  /bin/ssh -l streamer1 streamers
+  echo "You are being sent to the dungeon"
+  /bin/ssh -l inmate 192.168.200.2
   ;;
 3 )
   echo "Have a good day"
